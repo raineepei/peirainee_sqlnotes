@@ -34,6 +34,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void addData(View view) {
 
+        Cursor res = myDb.getAllData();
+
+        while (res.moveToNext())
+        {
+            if (res.getString(1).equals(editName.getText().toString())
+                    && res.getString(2).equals(editNumber.getText().toString())
+                    && res.getString(3).equals(editAddress.getText().toString()))
+            {
+                Toast.makeText(MainActivity.this, "Failed - contact already exists", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
         boolean isInserted = myDb.insertData(editName.getText().toString(), editNumber.getText().toString(),
                 editAddress.getText().toString());
 
@@ -42,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(MainActivity.this, "FAILED - contact not inserted", Toast.LENGTH_LONG).show();
         }
+
     }
 
     public void viewData(View view) {
